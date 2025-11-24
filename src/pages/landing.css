@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #151c47 0%, #232e6a 100%);
+    font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
+    color: #fff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.landing {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+}
