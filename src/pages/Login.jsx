@@ -48,17 +48,39 @@ const Login = () => {
 
     
     <div className="h-screen bg-gradient-to-br from-gray-900 to-blue-900 overflow-hidden">
-      <div className="flex justify-between items-center p-4">
-        <Link to="/" className="text-white text-xl font-bold hover:text-blue-300 transition-colors">
-          RapidResq
-        </Link>
-        <Link 
-          to="/signup" 
-          className="px-4 py-2 text-sm font-medium text-white bg-transparent border border-gray-600 rounded-lg hover:bg-gray-800/50 transition-colors"
-        >
-          Sign up
-        </Link>
-      </div>
+      <nav className="w-full border-b border-gray-800/50 bg-gradient-to-r from-gray-900 to-blue-900">
+              <div className="mx-auto w-full px-4 sm:px-6 lg:px-8">
+                <div className="flex h-16 items-center justify-between">
+      
+                  <div className="flex-shrink-0">
+                    <Link to="/" className="flex items-center space-x-2">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          className="h-5 w-5 text-white" 
+                          viewBox="0 0 20 20" 
+                          fill="currentColor"
+                        >
+                          <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116A31.365 31.365 0 008.84 7.5a2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467z" clipRule="evenodd" />
+                        </svg>
+                      </span>
+                      <span className="text-lg font-bold text-white md:text-xl">RapidResq</span>
+                    </Link>
+                  </div>
+      
+                  <div className="flex items-center space-x-3 sm:space-x-4">
+                    
+                    <Link 
+                      to="/signup" 
+                      className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-1.5 text-xs sm:text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:px-4 sm:py-2"
+                    >
+                      Sign up
+                    </Link>
+                  </div>
+      
+                </div>
+              </div>
+            </nav>
       <Line />
       <div className="flex items-center justify-start pt-4 px-4" style={{ minHeight: 'calc(100vh - 100px)' }}>
         <div className="w-full max-w-md mx-auto">
@@ -122,7 +144,7 @@ const Login = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 pr-12"
-                      placeholder="••••••••"
+                      placeholder={showPassword ?"Enter your password" : "••••••••"}
                     />
                     <button
                       type="button"
