@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Line from "../components/line";
 import Signup_navbar from "../components/Signup_Navbar";
+import { validation,handleSignupservice } from "../SignupFunction/HandleChange";
+
+
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -27,71 +30,17 @@ const Signup = () => {
     if (error) setError("");
   };
 
-  const validateForm = () => {
-    const { name, email, password, confirmPassword } = formData;
-    
-    if (!name || !email || !password || !confirmPassword) {
-      setError("All fields are required");
-      return false;
-    }
-    
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return false;
-    }
-    
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters long");
-      return false;
-    }
-    if(Phone_number.length !=10){
-      setError("Phone number must be 10 digits long");
-      return false;
-    }
-    
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError("Please enter a valid email address");
-      return false;
-    }
-    
-    return true;
-  };
+const handleSignup = async (e) => {
+  e.preventDefault();
 
-  const handleSignup = async (e) => {
-    e.preventDefault();
-    
-    if (!validateForm()) return;
-    
-    setIsLoading(true);
-    setError("");
-    
-    try {
-      const res = await fetch("https://rapid-resq-backend.onrender.com/api/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          Phone_number: formData.Phone_number,
-          password: formData.password,
-        }),
-      });
-      
-      const data = await res.json();
-      
-      if (!res.ok) {
-        throw new Error(data.message || "Signup failed");
-      }
-      
-      navigate("/login");
-      
-    } catch (err) {
-      setError(err.message || "An error occurred during signup");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  if (!validation(formData, setError)) return;
+  setIsLoading(true);
+  setError("");
+
+  await handleSignupservice(formData, setError, setIsLoading, navigate);
+};
+
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-blue-900 ">
