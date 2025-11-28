@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
+import DashboardTemplate from "../pages/DashboardTemplate";
 
 const Navbar = () => {
   return (
@@ -39,6 +40,16 @@ const Navbar = () => {
               </NavLink>
             </ul>
           </div>  */}
+
+        <div> 
+            <ul className="flex flex-row gap-10">
+              <Link to="/DashboardTemplate">
+                <li>Dashboard </li>
+              </Link>
+            </ul>
+          </div> 
+        
+
         </div>
 
             <div className="flex items-center space-x-3 sm:space-x-4">
