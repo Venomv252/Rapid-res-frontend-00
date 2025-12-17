@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const validation = (formData, setError) => {
-  if (!formData.name || !formData.email || !formData.phoneNumber) {
+  if (!formData.name || !formData.email || !formData.Phone_number) {
     setError("All fields are required.");
     return false;
   }
