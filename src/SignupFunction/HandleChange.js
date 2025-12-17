@@ -1,69 +1,36 @@
+import axios from "axios";
 
-
-export const validation = async (formData, setError) => {
-  const { name, email, password, confirmPassword, Phone_number } = formData;
-
-  if (!name || !email || !password || !confirmPassword) {
-    setError("All fields are required");
+export const validation = (formData, setError) => {
+  if (!formData.name || !formData.email || !formData.phoneNumber) {
+    setError("All fields are required.");
     return false;
   }
-
-  if (password !== confirmPassword) {
-    setError("Passwords do not match");
+  if (formData.password !== formData.confirmPassword) {
+    setError("Passwords do not match.");
     return false;
   }
-
-  if (password.length < 8) {
-    setError("Password must be at least 8 characters long");
-    return false;
-  }
-  if (Phone_number.length != 10) {
-    setError("Phone number must be 10 digits long");
-    return false;
-  }
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    setError("Please enter a valid email address");
-    return false;
-  }
-
   return true;
 };
 
-export const  handleSignupservice = async (
-  formData,
-  setError,
-  setIsLoading,
-  navigate
-) => {
-  
-
+export const handleSignupservice = async (formData, setError, setIsLoading, navigate) => {
   try {
-    const res = await fetch("https://rapid-resq-backend.onrender.com", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    const res = await axios.post(
+      "https://rapid-res-backend.onrender.com/api/signup",   // ⭐ correct backend URL
+      {
         name: formData.name,
         email: formData.email,
-        Phone_number: formData.Phone_number,
         password: formData.password,
-      }),
-    });
+        phoneNumber: formData.phoneNumber
+      }
+    );
 
-    const data = await res.json();
-    console.log(data);
-
-    if (!res.ok) {
-      throw new Error(data.message || "Signup failed");
+    if (res.status === 200) {
+      navigate("/login");
     }
-
-    navigate("/login");
   } catch (err) {
-    setError(err.message || "An error occurred during signup");
+    setError(err.response?.data?.message || "Signup failed");
   } finally {
     setIsLoading(false);
   }
 };
-
 
