@@ -13,6 +13,7 @@ export const validation = (formData, setError) => {
 };
 
 export const handleSignupservice = async (formData, setError, setIsLoading, navigate) => {
+  setIsLoading(true);
   try {
     const res = await axios.post(
       "https://rapid-res-backend.onrender.com/api/signup",   // ⭐ correct backend URL
