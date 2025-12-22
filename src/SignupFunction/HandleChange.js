@@ -35,21 +35,48 @@ export const validation = (formData, setError) => {
 export const handleSignupservice = async (formData, setError, setIsLoading, navigate) => {
   setIsLoading(true);
   try {
+    console.log("Attempting signup with data:", {
+      name: formData.name,
+      email: formData.email,
+      phoneNumber: formData.phoneNumber
+    });
+
     const res = await axios.post(
-      "https://rapid-res-backend.onrender.com/api/signup",   // ⭐ correct backend URL
+      "https://rapid-res-backend.onrender.com/api/signup",
       {
         name: formData.name,
         email: formData.email,
         password: formData.password,
         phoneNumber: formData.phoneNumber
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 10000 // 10 second timeout
       }
     );
+
+    console.log("Signup response:", res.data);
 
     if (res.status === 200) {
       navigate("/login");
     }
   } catch (err) {
-    setError(err.response?.data?.message || "Signup failed");
+    console.error("Signup error:", err);
+    
+    if (err.code === 'ECONNABORTED') {
+      setError("Request timeout. Please try again.");
+    } else if (err.response) {
+      // Server responded with error status
+      setError(err.response.data?.message || `Server error: ${err.response.status}`);
+    } else if (err.request) {
+      // Request was made but no response received
+      setError("Network error. Please check your connection and try again.");
+    } else {
+      // Something else happened
+      setError(err.message || "Signup failed. Please try again.");
+    }
   } finally {
     setIsLoading(false);
   }
