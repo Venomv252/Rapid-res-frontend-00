@@ -1,14 +1,34 @@
 import axios from "axios";
 
 export const validation = (formData, setError) => {
-  if (!formData.name || !formData.email || !formData.phoneNumber) {
+  if (!formData.name || !formData.email || !formData.phoneNumber || !formData.password || !formData.confirmPassword) {
     setError("All fields are required.");
     return false;
   }
+  
+  if (formData.password.length < 6) {
+    setError("Password must be at least 6 characters long.");
+    return false;
+  }
+  
   if (formData.password !== formData.confirmPassword) {
     setError("Passwords do not match.");
     return false;
   }
+  
+  // Basic email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(formData.email)) {
+    setError("Please enter a valid email address.");
+    return false;
+  }
+  
+  // Phone number validation (basic)
+  if (formData.phoneNumber.length < 10) {
+    setError("Please enter a valid phone number.");
+    return false;
+  }
+  
   return true;
 };
 
