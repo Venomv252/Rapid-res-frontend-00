@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Line from "../components/line";
 import Signup_navbar from "../components/Signup_Navbar";
-import { validation,handleSignupservice } from "../SignupFunction/HandleChange";
-
-
+import axios from "axios";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -14,13 +12,17 @@ const Signup = () => {
     password: "",
     confirmPassword: ""
   });
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const navigate = useNavigate();
 
+  /* =========================
+     HANDLE INPUT CHANGE
+  ========================== */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -30,17 +32,78 @@ const Signup = () => {
     if (error) setError("");
   };
 
-const handleSignup = async (e) => {
-  e.preventDefault();
+  /* =========================
+     VALIDATION
+  ========================== */
+  const validate = (formData) => {
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.phoneNumber ||
+      !formData.password ||
+      !formData.confirmPassword
+    ) {
+      setError("All fields are required.");
+      return false;
+    }
 
-  if (!validation(formData, setError)) return;
-  setIsLoading(true);
-  setError("");
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      setError("Please enter a valid email address.");
+      return false;
+    }
 
-  await handleSignupservice(formData, setError, setIsLoading, navigate);
-};
+    if (formData.phoneNumber.length < 10) {
+      setError("Please enter a valid phone number.");
+      return false;
+    }
 
-  
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return false;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Password and confirm password do not match.");
+      return false;
+    }
+
+    return true;
+  };
+
+  /* =========================
+     SIGNUP API CALL
+  ========================== */
+  const handleSignupservice = async () => {
+    setIsLoading(true);
+    try {
+      const res = await axios.post(
+        "https://rapid-resq-backend.onrender.com/api/signup",
+        {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          phoneNumber: formData.phoneNumber
+        }
+      );
+
+      if (res.status === 200 || res.status === 201) {
+        navigate("/login");
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Signup failed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  /* =========================
+     FORM SUBMIT
+  ========================== */
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    if (!validate(formData)) return;
+    await handleSignupservice();
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-blue-900 ">
@@ -55,7 +118,9 @@ const handleSignup = async (e) => {
             <div className="p-4 sm:p-6">
 
               <div className="text-center mb-2">
-                <h2 className="text-xl sm:text-2xl font-bold text-white">Create Account</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-white">
+                  Create Account
+                </h2>
               </div>
 
               {error && (
@@ -96,7 +161,8 @@ const handleSignup = async (e) => {
                     required
                   />
                 </div>
-                {/*Phone Number*/}
+
+                {/* Phone Number */}
                 <div>
                   <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1">
                     Phone Number
@@ -111,8 +177,6 @@ const handleSignup = async (e) => {
                     required
                   />
                 </div>
-
-
 
                 {/* Password */}
                 <div>
