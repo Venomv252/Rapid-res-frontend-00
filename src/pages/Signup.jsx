@@ -77,7 +77,7 @@ const Signup = () => {
     setIsLoading(true);
     try {
       const res = await axios.post(
-        "https://rapid-resq-backend.onrender.com/api/signup",
+        "http://localhost:5000/api/signup",
         {
           name: formData.name,
           email: formData.email,

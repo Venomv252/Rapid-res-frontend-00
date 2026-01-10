@@ -1,9 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
-import DashboardTemplate from "../pages/DashboardTemplate";
 
-const Navbar = () => {
+
+
+const AdminDashboardNavbar = () => {
   return (
     <>
     
@@ -28,50 +29,15 @@ const Navbar = () => {
               </Link>
 
             </div>
-            <div className="flex flex-row items-center justify-between gap-50">
-          {/* //Navigation Links */}
-          {/* <div> 
-            <ul className="flex flex-row gap-10">
-              <NavLink to="/how-it-works">
-                <li>How it works</li>
-              </NavLink>
-              <NavLink to="/Features">
-                <li>Features</li>
-              </NavLink>
-            </ul>
-          </div>  */}
+           
 
-        {/* <div> 
-            <ul className="flex flex-row gap-10">
-              <Link to="/DashboardTemplate">
-                <li>Dashboard </li>
-              </Link>
-            </ul>
-          </div>  */}
-        
-
-        </div>
-
-            <div className="flex items-center space-x-3 sm:space-x-4">
-              <span className="hidden text-xs sm:text-sm text-gray-400 sm:inline-block">
-                Have an account?
-              </span>
-              <Link 
-                to="/login" 
-                className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-1.5 text-xs sm:text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:px-4 sm:py-2"
-              >
-                Sign In
-              </Link>
-            </div>
+            
 
           </div>
         </div>
       </nav>
     </>
-  );
-};
+  )
+}
 
-export default Navbar;
-
-
-      
+export default AdminDashboardNavbar;

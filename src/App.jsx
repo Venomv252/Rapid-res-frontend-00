@@ -8,6 +8,10 @@ import Navbar from './components/Navbar'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
 import DashboardTemplate from './pages/DashboardTemplate'
+import Admin from './pages/Admin'
+import AdminNavbar from './components/admincomponents/adminNavbar'
+import AdminDashboard from './pages/AdminDashboard'
+import AdminDashboardNavbar from './components/admincomponents/AdminDashboardNavbar'
 
 
 function App() {
@@ -31,6 +35,12 @@ const router = createBrowserRouter([
     
     path:"/DashboardTemplate",
     element:<><DashboardTemplate/></>
+  },
+  {path : "/admin/login",
+    element: <> <AdminNavbar/><Admin /></>
+  },{
+    path : "/admin/dashboard",
+    element : <> < AdminDashboardNavbar/ > <AdminDashboard /></>
   }
 ])
 
